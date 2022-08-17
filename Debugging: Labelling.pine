@@ -1,0 +1,27 @@
+//@version=4
+study(title="tostring() example indicator", overlay=true)
+
+plotchar(bar_index, "Bar Index", "", location = location.top)
+
+if (barstate.islast)
+    // label.new(bar_index, 0, "Your value here, ex: " + syminfo.tickerid)
+    x = bar_index
+    y = close
+    txt = tostring(close)
+    label.new(x, y, txt) // print value of close
+
+
+
+----------------------
+
+//@version=5
+indicator(title="tostring() example indicator", overlay=true)
+
+plotchar(bar_index, "Bar Index", "", location = location.top)
+
+if (barstate.islast)
+    // label.new(bar_index, 0, "Your value here, ex: " + syminfo.tickerid)
+    x = bar_index
+    y = close
+    txt = str.tostring(close)
+    label.new(x, y, txt) // print value of close

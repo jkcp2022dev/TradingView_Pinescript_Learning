@@ -1,0 +1,49 @@
+https://www.anycodings.com/questions/what-is-the-equivalent-of-consolelog-in-pine-script
+https://stackoverflow.com/questions/48656195/what-is-the-equivalent-of-console-log-in-pine-script
+
+
+1
+plotchar(bar_index, "Bar Index", "", location = location.top)
+Appear in data window (4th in right bar)
+
+2.
+With pine v.4 there's new way to print text. You can use labels for that:
+
+
+//@version=4
+study("Print text values", overlay=true)
+x = bar_index
+y = close
+txt = tostring(close)
+label.new(x, y, txt) // print value of close
+
+14
+
+If you just want to print a single value (not at every bar), you can do:
+
+if (barstate.islast)
+    label.new(bar_index, 0, "Your value here, ex: " + syminfo.tickerid)
+
+
+3. Using table
+//@version=4
+study("My Script", overlay=true)
+
+sma20 = sma(close, 20)
+text = "sma 20: " + tostring(sma20)
+
+tableColumn = 1
+tableRow = 1
+var table panel = table.new(position.top_right, tableColumn, tableRow)
+if barstate.islast
+    table.cell(panel, 0, 0, text, bgcolor=color.black, text_color=color.white)
+
+
+4. custom print function
+var global_print_counter = array.new_int()
+array.push(global_print_counter, 0)
+print(string txt = "") => 
+    if txt != "" and barstate.islast
+        int print_counter = array.get(global_print_counter, 0)
+        printLabel = label.new(x=bar_index, y=high + (print_counter * 75), textcolor=color.white, color=color.black, text=txt)
+        array.set(global_print_counter, 0, print_counter + 1)

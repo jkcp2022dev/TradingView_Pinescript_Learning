@@ -1,0 +1,17 @@
+//@version=5
+indicator(title="Higher TF BBands", shorttitle="TF BBands", overlay=true)
+
+// Get user input
+tf = input(title="BBands Timeframe", defval="60")
+len = input(title="Length", defval=20)
+stddev = input(title='StdDev', defval=2)
+
+[middle, upper, lower] = ta.bb(close, len, stddev)
+
+hbbandsMid = request.security(syminfo.tickerid, tf, middle, barmerge.gaps_on, barmerge.lookahead_off)
+hbbandsUpper = request.security(syminfo.tickerid, tf, upper, barmerge.gaps_on, barmerge.lookahead_off)
+hbbandsLower = request.security(syminfo.tickerid, tf, lower, barmerge.gaps_on, barmerge.lookahead_off)
+
+plot(hbbandsMid)
+plot(hbbandsUpper)
+plot(hbbandsLower)

@@ -1,0 +1,20 @@
+// Open Trade Filters
+openCondition1 = (ta.rsi(close,14) > 40)
+openCondition2 = ((strategy.closedtrades - strategy.closedtrades[24]) < 1)
+
+// Exit Conditions
+exitCondition1 = ta.ema(close, 50) < ta.ema(close, 200)
+exitCondition2 = close < close[1] * 0.95
+if exitCondition1 or exitCondition2
+    strategy.close(id='long')
+
+// Smoothing
+smoothed = close + 0.5 * (close[1] - close)
+
+// Adaptive Colors
+line_color = color.green
+if close < close[1]
+    line_color := color.red
+    line_color
+plot(close, color=line_color)
+bgcolor(line_color, transp=90)
